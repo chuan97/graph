@@ -21,7 +21,7 @@ def recursive_cluster(A, checked=set(), clusters=[{0}]):
     if not remaining: # if all nodes have been checked, nothing more to do, end of recursive depth
         return clusters # return current clusters
     elif connected_nodes.issubset(clusters[-1]): # if the new connections where already in the cluster, i.e if the cluster is complete
-        clusters.append({min(remaining)}) # start new cluster with an unchecked node
+        clusters.append({remaining.pop()}) # start new cluster with an unchecked node
         return recursive_cluster(A, checked=checked, clusters=clusters)  # fill that new cluster recursively
     else: # if there are new connections
         clusters[-1].update(connected_nodes) # add them to the current cluster
@@ -30,7 +30,7 @@ def recursive_cluster(A, checked=set(), clusters=[{0}]):
 if __name__ == '__main__':
     # build the matrix
     A = np.zeros((10, 10))
-    connections = [(0, 2), (2, 5), (1, 7), (1, 8), (1, 9), (7, 8), (6, 9), (3, 4), (3, 6), (4, 6)] # only upper diagonal
+    connections = [(0, 2), (2, 5), (1, 7), (1, 8), (1, 9), (7, 8), (3, 4), (3, 6), (4, 6)] # only upper diagonal
     for idx in connections:
         A[idx] = 1  
     A = A + A.T # symetrize
